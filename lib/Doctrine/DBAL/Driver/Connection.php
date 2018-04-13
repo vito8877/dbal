@@ -2,6 +2,7 @@
 
 namespace Doctrine\DBAL\Driver;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 
 /**
@@ -16,19 +17,15 @@ interface Connection
 {
     /**
      * Prepares a statement for execution and returns a Statement object.
-     *
-     * @param string $prepareString
-     *
-     * @return \Doctrine\DBAL\Driver\Statement
      */
-    public function prepare($prepareString);
+    public function prepare(string $sql) : Statement;
 
     /**
      * Executes an SQL statement, returning a result set as a Statement object.
      *
-     * @return \Doctrine\DBAL\Driver\Statement
+     * @throws DBALException
      */
-    public function query();
+    public function query(string $sql) : ResultStatement;
 
     /**
      * Quotes a string for use in a query.
@@ -43,11 +40,9 @@ interface Connection
     /**
      * Executes an SQL statement and return the number of affected rows.
      *
-     * @param string $statement
-     *
-     * @return int
+     * @throws DBALException
      */
-    public function exec($statement);
+    public function exec(string $statement) : int;
 
     /**
      * Returns the ID of the last inserted row or sequence value.
